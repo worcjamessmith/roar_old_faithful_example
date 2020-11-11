@@ -1,0 +1,86 @@
+---
+title: "Final report"
+author: "Rob Arbon"
+date: "09/11/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+The Old Faithful data set contains the waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA. 
+
+```{r load_data}
+df <- faithful
+```
+
+The data description is given in the table below. 
+
+| variable | description | 
+| - | - |
+| `eruptions` | the duration of the eruption, minutes |
+| `waiting` | waiting time to next eruption, minutes | 
+
+
+A  summary of the distributions of each variable are as follows:
+
+```{r summary}
+summary(df)
+```
+
+The marginal distributions of the variables shown below: 
+
+```{r distribution}
+hist(df$eruptions)
+hist(df$waiting)
+```
+
+Both the duration of eruptions and waiting time show a bimodal distribution. This prompts the hypothesis: 
+
+*There are 2 distinct types of eruption from Old Faithful: 1) short frequent eruptions, 2) long infrequent eruptions.*
+
+
+# Methods
+
+We will test this using a Gaussian mixture model to cluster the data into 1 and 2 clusters. 
+The true number of clusters will correspond to the model with the smallest value of the integrated complete data likelihood (ICL).  
+
+# Results
+
+The R package `Rmixmod` was used to estimate two Gaussian mixture models. 
+
+```{r}
+library(Rmixmod)
+# mixmodCluster fits a Gaussian mixture model
+# nbCluster is the number of mixture components. 
+mod1 <- mixmodCluster(faithful, nbCluster=1, criterion="ICL")
+mod2 <- mixmodCluster(faithful, nbCluster=2, criterion="ICL")
+```
+
+A summary of both models is shown below. 
+```{r}
+summary(mod1)
+summary(mod2)
+```
+
+The model with 1 component has an ICL value or `r mod1@bestResult@criterionValue`
+
+The model with 2 components has an ICL value of `r mod2@bestResult@criterionValue`. 
+
+The best performing model has `r if (mod1@bestResult@criterionValue < mod2@bestResult@criterionValue) print(1) else (2)` components. 
+
+A plot of the optimal clustering is shown below. 
+
+```{r}
+
+plot(mod2)
+
+```
+
+# Conclusion
+
+There do appear to be two different types of eruption.
+
