@@ -58,8 +58,6 @@ library(Rmixmod)
 # nbCluster is the number of mixture components. 
 mod1 <- mixmodCluster(faithful, nbCluster=1, criterion="ICL")
 mod2 <- mixmodCluster(faithful, nbCluster=2, criterion="ICL")
-plot(mod1)
-plot(mod2)
 ```
 
 A summary of both models is shown below. 
@@ -72,17 +70,17 @@ The model with 1 component has an ICL value or `r mod1@bestResult@criterionValue
 
 The model with 2 components has an ICL value of `r mod2@bestResult@criterionValue`. 
 
-The best performing model has components. 
+The best performing model has `r if (mod1@bestResult@criterionValue < mod2@bestResult@criterionValue) print(1) else (2)` components. 
 
 A plot of the optimal clustering is shown below. 
 
-**TODO**: plot the best performing model. 
-
 ```{r}
-# plot()
+
+plot(mod2)
+
 ```
 
 # Conclusion
 
-**TODO**: Write a brief conclusion. 
+There do appear to be two different types of eruption.
 
