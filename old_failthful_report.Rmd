@@ -68,12 +68,11 @@ summary(mod1)
 summary(mod2)
 ```
 
-**TODO**: Add a sentence giving the ICL of the 1-component GMM for comparison. 
+The model with 1 component has an ICL value or `r mod1@bestResult@criterionValue`
 
 The model with 2 components has an ICL value of `r mod2@bestResult@criterionValue`. 
-The model with 1 component has...
 
-The best performing model has ... components. 
+The best performing model has components. 
 
 A plot of the optimal clustering is shown below. 
 
